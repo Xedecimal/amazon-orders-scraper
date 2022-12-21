@@ -4,6 +4,7 @@
   "version": "1.0.2",
   "main": "src/index.ts",
   "license": "MIT",
+  "keywords": [ "amazon", "scraper", "orders", "delivery" ],
   "dependencies": {
     "chrono-node": "^2.4.2",
     "puppeteer": "^19.4.1",
