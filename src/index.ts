@@ -63,7 +63,6 @@ const parseCards = async (orderCards: ElementHandle[]) => {
   // TODO: Missing some items? Getting 7 at times.
   return Promise.all(
     orderCards.map(async (oc, index) => {
-      console.log(`Doing entry ${index}`);
       const values = await oc.$$(".a-color-secondary");
       const obj: Result = {};
       const [, date, , amount, , , id] = await Promise.all(
@@ -82,7 +81,6 @@ const parseCards = async (orderCards: ElementHandle[]) => {
         await oc.$(".yohtmlc-product-title,.yohtmlc-item a")
       )?.evaluate((el) => el.innerText);
 
-      console.log(`Done entry ${index}`);
       return obj;
     })
   );
@@ -93,9 +91,11 @@ const getOrders = async (options: Options) => {
   const page = await browser.newPage();
 
   try {
-    await page.goto(`https://${options.domain || "amazon.com"}`);
+    const url = `https://${options.domain || "amazon.com"}`;
+    console.debug(`navigating to "${url}"`);
+    await page.goto(url);
 
-    await page.waitForNavigation();
+    await page.waitForSelector("#nav-cart");
 
     const signInLink = await page.$("#nav-link-accountList");
     const canSignIn = await signInLink?.evaluate((el) => {
@@ -103,7 +103,7 @@ const getOrders = async (options: Options) => {
     });
 
     if (canSignIn) {
-      console.log("Not logged in, signing in");
+      console.debug("Not logged in, signing in");
       await signIn(options, page, signInLink);
     }
 
@@ -114,9 +114,12 @@ const getOrders = async (options: Options) => {
 
     const cards = await page.$$(".order-card");
 
-    browser.close();
+    // browser.close();
 
-    return await parseCards(cards);
+    return parseCards(cards).then((cards) => {
+      browser.close();
+      return cards;
+    });
   } catch (e) {
     await page.screenshot({ path: "error.png" });
     console.error(e);
@@ -124,5 +127,5 @@ const getOrders = async (options: Options) => {
 };
 
 (async () => {
-  console.log(await getOrders(argv as Options));
+  console.log(JSON.stringify(await getOrders(argv as Options)));
 })();
