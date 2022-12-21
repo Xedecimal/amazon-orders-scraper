@@ -1,7 +1,7 @@
 {
   "name": "amazon-orders-scraper",
   "description": "Logs into amazon and collects data on your orders.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "src/index.ts",
   "license": "MIT",
   "dependencies": {
