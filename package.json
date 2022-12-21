@@ -1,10 +1,15 @@
 {
   "name": "amazon-orders-scraper",
   "description": "Logs into amazon and collects data on your orders.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "src/index.ts",
   "license": "MIT",
-  "keywords": [ "amazon", "scraper", "orders", "delivery" ],
+  "keywords": [
+    "amazon",
+    "scraper",
+    "orders",
+    "delivery"
+  ],
   "dependencies": {
     "chrono-node": "^2.4.2",
     "puppeteer": "^19.4.1",
