@@ -14,7 +14,6 @@ const argv = yargs
     description: "Amazon domain to use eg. amazon.com",
     alias: "d",
     type: "string",
-    require: true,
   })
   .option("email", {
     description: "Email address to login as",
@@ -92,7 +91,7 @@ const getOrders = async (options: Options) => {
 
   try {
     const url = `https://${options.domain || "amazon.com"}`;
-    console.debug(`navigating to "${url}"`);
+
     await page.goto(url);
 
     await page.waitForSelector("#nav-cart");
